@@ -30,6 +30,10 @@ def clean_data(df):
         # convert column from string to numeric
         categories[column] = categories[column].apply(pd.to_numeric)
 
+    # replace all 2's with 1's in the target column named 'related'.
+    categories.loc[categories['related'] == 2, 'related'] = 1
+    categories['related'].unique()
+
     # Replace categories column in df with new category columns.
     df = df.drop('categories', axis=1)
     df = pd.concat([df, categories], axis=1)
