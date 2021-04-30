@@ -23,7 +23,12 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 
 
 def load_data(database_filepath):
-    pass
+    engine = create_engine('sqlite:///disaster_response.db')
+    df = pd.read_sql("SELECT * FROM disaster_response", engine)
+    X = df['message'].values
+    Y = df[df.columns[4:]]
+    categories = Y.columns
+    return X, Y, categories
 
 
 def tokenize(text):
