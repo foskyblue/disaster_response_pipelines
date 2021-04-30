@@ -4,6 +4,11 @@ from sqlalchemy import create_engine
 
 
 def load_data(messages_filepath, categories_filepath):
+    """
+    :param messages_filepath: file path for messages file in csv format
+    :param categories_filepath: file path for message categories file in csv format
+    :return: merged message and categories dataframe
+    """
     # read data
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
@@ -14,6 +19,10 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+    """
+    :param df: merged message and categories dataframe
+    :return: cleaned dataframe
+    """
     # create a dataframe of the 36 individual category columns
     categories = df['categories'].str.split(';', expand=True)
     row = categories.iloc[0]  # select the first row of the categories dataframe
@@ -44,6 +53,11 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
+    """
+    :param df: cleaned dataframe
+    :param database_filename: name of database when saved
+    :return: None
+    """
     engine = create_engine('sqlite:///'+database_filename+'.db')
     df.to_sql(database_filename, engine, index=False, if_exists="replace")
 
