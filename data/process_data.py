@@ -1,5 +1,6 @@
 import sys
 import pandas as pd
+import sqlite3
 from sqlalchemy import create_engine
 
 
@@ -59,7 +60,8 @@ def save_data(df, database_filename):
     :return: None
     """
     engine = create_engine('sqlite:///'+database_filename+'.db')
-    df.to_sql(database_filename, engine, index=False, if_exists="replace")
+    table_name = database_filename.split('/')[1]
+    df.to_sql(table_name, engine, index=False, if_exists="replace")
 
 
 def main():
