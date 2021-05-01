@@ -52,7 +52,11 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
-    pass
+    y_pred_cv = model.predict(X_test)
+    Y_test = np.array(Y_test)
+    for idx in range(36):
+        print(classification_report(Y_test[:, idx], y_pred_cv[:, idx]))
+        print()
 
 
 def save_model(model, model_filepath):
