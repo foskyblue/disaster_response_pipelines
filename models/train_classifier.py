@@ -1,15 +1,18 @@
 import sys
 import nltk
+
 nltk.download(['punkt', 'wordnet', 'averaged_perceptron_tagger'])
 
 import re
 import numpy as np
 import pandas as pd
 import sqlite3
+from util import Utility, tokenize
 from sqlalchemy import create_engine
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
+import pickle
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
@@ -23,7 +26,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 
 
 def load_data(database_filepath):
-    engine = create_engine('sqlite:///disaster_response.db')
+    engine = sqlite3.connect(database_filepath)
     df = pd.read_sql("SELECT * FROM disaster_response", engine)
     X = df['message'].values
     Y = df[df.columns[4:]]
@@ -31,20 +34,21 @@ def load_data(database_filepath):
     return X, Y, categories
 
 
-def tokenize(text):
-    tokens = word_tokenize(text)
-    lemmatizer = WordNetLemmatizer()
-
-    clean_tokens = []
-    for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
-
-    return clean_tokens
-
-
 def build_model():
-    pass
+    pipeline = Pipeline([
+        ('vect', CountVectorizer(tokenizer=tokenize)),
+        ('tfidf', TfidfTransformer()),
+        ('clf', MultiOutputClassifier(RandomForestClassifier()))
+    ])
+
+    parameters = {
+        "clf": [RandomForestClassifier()],
+        "clf__n_estimators": [10],
+        'clf__min_samples_split': [2, 4]
+    }
+
+    cv = GridSearchCV(pipeline, param_grid=parameters)
+    return cv
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
