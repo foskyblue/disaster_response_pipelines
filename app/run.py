@@ -1,60 +1,32 @@
 import json
 
-import joblib
+# import joblib
 import pandas as pd
 import plotly
 from util import Utility, tokenize
 from flask import Flask
 from flask import render_template, request
-from plotly.graph_objs import Bar
+from plotly.graph_objs import Bar, Scatter, Pie
 from sqlalchemy import create_engine
+from load import load_data, load_model
+from figures import load_figures
 
 app = Flask(__name__)
 
 # load data
-engine = create_engine('sqlite:///../data/disaster_response.db')
-df = pd.read_sql_table('disaster_response', engine)
+df = load_data()
 
 # load model
-model = joblib.load("../models/disaster_response_pickle.pkl")
+model = load_model()
 
 
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
 @app.route('/index')
 def index():
-    
-    # extract data needed for visuals
-    # TODO: modify to extract data for your own visuals
-    genre_counts = df.groupby('genre').count()['message']
-    genre_names = list(genre_counts.index)
-    
-    # create visuals
-    # TODO: modify to create your own visuals
-    graphs = [
-        {
-            'data': [
-                Bar(
-                    x=genre_names,
-                    y=genre_counts
-                )
-            ],
 
-            'layout': {
-                'title': 'Distribution of Message Genres',
-                'yaxis': {
-                    'title': "Count"
-                },
-                'xaxis': {
-                    'title': "Genre"
-                }
-            }
-        }
-    ]
-    
-    # encode plotly graphs in JSON
-    ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
-    graph_json = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
+    # load figures and ids
+    ids, graph_json = load_figures()
     
     # render web page with plotly graphs
     return render_template('master.html', ids=ids, graphJSON=graph_json)
