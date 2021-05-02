@@ -59,6 +59,9 @@ def save_data(df, database_filename):
     :param database_filename: name of database when saved
     :return: None
     """
+    if '.' in database_filename:
+        database_filename = database_filename.split('.')[0]
+    
     engine = create_engine('sqlite:///'+database_filename+'.db')
     table_name = database_filename.split('/')[1]
     df.to_sql(table_name, engine, index=False, if_exists="replace")
