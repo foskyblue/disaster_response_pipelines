@@ -30,8 +30,6 @@ def load_figures():
     x = [val_tup[idx][0] for idx in range(len(val_tup))]
     y = [val_tup[idx][1] for idx in range(len(val_tup))]    
 
-    graph_1_x = df["message"]
-
     # create visuals
     # TODO: modify to create your own visuals
     graphs = [
