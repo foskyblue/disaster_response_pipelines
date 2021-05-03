@@ -26,6 +26,10 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 
 
 def load_data(database_filepath):
+    """
+    :param database_filepath: file path of data to be loaded
+    :return: training data dataframe, target columns dataframe and target column names 
+    """
     engine = sqlite3.connect(database_filepath)
     df = pd.read_sql("SELECT * FROM disaster_response", engine)
     X = df['message'].values
@@ -35,16 +39,28 @@ def load_data(database_filepath):
 
 
 def build_model():
+    """
+    :param : None
+    :return: Grid search model pipeline
+    """
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
         ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
 
+    # parameters = {
+    #     "clf": [RandomForestClassifier()],
+    #     'tfidf__use_idf': (True, False),
+    #     "clf__n_estimators": [10, 100, 250],
+    #     'clf__min_samples_split': [2, 4, 10],
+    # }
+
     parameters = {
         "clf": [RandomForestClassifier()],
-        "clf__n_estimators": [10],
-        'clf__min_samples_split': [2, 4]
+        # 'tfidf__use_idf': [False],
+        "clf__n_estimators": [250],
+        'clf__min_samples_split': [2],
     }
 
     cv = GridSearchCV(pipeline, param_grid=parameters)
@@ -52,7 +68,15 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    """
+    :param model: Grid search model pipeline to be used for prediction and evaluation
+    :param X_test: test data sets
+    :param Y_test: test data sets target columns to evaluate classifier
+    :param category_names: test data column names
+    :return: None
+    """
     y_pred_cv = model.predict(X_test)
+    # print('Best parameters: ', model.best_params_)
     Y_test = np.array(Y_test)
     for idx in range(36):
         print(classification_report(Y_test[:, idx], y_pred_cv[:, idx]))
@@ -60,6 +84,11 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath):
+    """
+    :param model: Grid search model pipeline
+    :param model_filepath: file path where model will be saved
+    :return: None
+    """
     pkl_filename = model_filepath
     with open(pkl_filename, 'wb') as file:
         pickle.dump(model, file)
@@ -77,6 +106,8 @@ def main():
 
         print('Training model...')
         model.fit(X_train, Y_train)
+
+        print('Best params ', model.best_params_)
 
         print('Evaluating model...')
         evaluate_model(model, X_test, Y_test, category_names)
