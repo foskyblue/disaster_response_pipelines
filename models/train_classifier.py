@@ -59,7 +59,7 @@ def build_model():
     parameters = {
         "clf": [RandomForestClassifier()],
         # 'tfidf__use_idf': [False],
-        "clf__n_estimators": [250],
+        "clf__n_estimators": [10],
         'clf__min_samples_split': [2],
     }
 
