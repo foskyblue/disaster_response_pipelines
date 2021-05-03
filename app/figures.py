@@ -12,7 +12,7 @@ def load_figures():
     """
     :return: Figure containing plots and id for each plot
     """
-    engine = create_engine('sqlite:///../data/disaster_response.db')
+    engine = create_engine('sqlite:///data/disaster_response.db')
     df = pd.read_sql_table('disaster_response', engine)
 
     # extract data needed for visuals
