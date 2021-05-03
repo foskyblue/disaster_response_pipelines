@@ -41,6 +41,7 @@ See requirements.txt file for all dependencies and versions used for this projec
    to train a classifier and save the results to a pickle file.
 5. To start web app, run the command:
 
+    *python app/run.py*
 
 NOTE: To exclude the complexity of a gridsearch, I commented on lines 52-57 and line 79 in the train_classifier.py file found in the models folder. You can uncomment on these lines to include more parameters as you see fit.
 
