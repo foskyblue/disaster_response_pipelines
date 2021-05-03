@@ -39,7 +39,7 @@ See requirements.txt file for all dependencies and versions used for this projec
    *python models/train_classifier.py data/disaster_response.db models/disaster_response_pickle.pkl* 
    
    to train a classifier and save the results to a pickle file.
-5. To start web app, run the command:
+5. To start web app, uncomment lines 50-55 in app/run.py and run the command:
 
     *python app/run.py*
 
