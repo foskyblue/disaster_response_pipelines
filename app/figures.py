@@ -71,9 +71,9 @@ def load_figures():
                     'title': "Number of messages"
                 },
                 'xaxis': {
-                    'title': "Label"
+                    'title': "Label",
+                    'tickangle': -45
                 },
-                'xaxis': {'tickangle': -45}
             }
         },
 
