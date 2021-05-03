@@ -30,8 +30,7 @@ def load_figures():
     val_tup = sorted(val_tup, key=lambda x: x[1], reverse=False)
 
     x = [val_tup[idx][0] for idx in range(len(val_tup))]
-    y = [val_tup[idx][1] for idx in range(len(val_tup))]    
-    y_1 = [val_tup[idx][2] for idx in range(len(val_tup))] 
+    y = [val_tup[idx][1] for idx in range(len(val_tup))]  
 
     # co-ordinates for third plot
     # column_values_0 = (df.iloc[:, 4:]==0).sum().values
