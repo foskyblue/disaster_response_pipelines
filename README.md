@@ -103,6 +103,13 @@ The following pipelines were built and data analysis were performed :
 
 ## Results<a name="results"></a>
 
+See images of web app below:
+
+![sample_img1](https://user-images.githubusercontent.com/16907846/116956088-4e0ff680-ac8c-11eb-8fe3-8cf050231069.JPG)
+![sample_img2](https://user-images.githubusercontent.com/16907846/116956093-523c1400-ac8c-11eb-85a7-a32af57e45fa.JPG)
+![prediction_img2](https://user-images.githubusercontent.com/16907846/116956100-549e6e00-ac8c-11eb-9dbc-7e4d5a18a0ef.JPG)
+
+
 You can use the [web app]() deployed to the Heroku cloud service to use this model for classification. 
 
 When you run the code locally, you will find the performace (accuracy, precision, recall and f1-measure) results for each category. 
