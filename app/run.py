@@ -3,7 +3,7 @@ import json
 # import joblib
 import pandas as pd
 import plotly
-from util import Utility, tokenize
+from util import tokenize
 from flask import Flask
 from flask import render_template, request
 from plotly.graph_objs import Bar, Scatter, Pie
