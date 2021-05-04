@@ -13,6 +13,12 @@ from figures import load_figures
 
 app = Flask(__name__)
 
+# load data
+df = load_data()
+
+# load model
+model = load_model()
+
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
 @app.route('/index')
@@ -30,11 +36,11 @@ def index():
 def go():
     # save user input in query
     query = request.args.get('query', '') 
-    # load data
-    df = load_data()
+    # # load data
+    # df = load_data()
 
-    # load model
-    model = load_model()
+    # # load model
+    # model = load_model()
     # use model to predict classification for query
     classification_labels = model.predict([query])[0]
     classification_results = dict(zip(df.columns[4:], classification_labels))

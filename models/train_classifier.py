@@ -28,7 +28,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 def load_data(database_filepath):
     """
     :param database_filepath: file path of data to be loaded
-    :return: training data dataframe, target columns dataframe and target column names 
+    :return: training data dataframe, target columns dataframe and target column names
     """
     engine = sqlite3.connect(database_filepath)
     df = pd.read_sql("SELECT * FROM disaster_response", engine)
