@@ -50,6 +50,11 @@ def clean_data(df):
 
     # Remove duplicates
     df.drop_duplicates(inplace=True)
+
+    # save csv to html table
+    print('Saving dataframe to html table...')
+    df.to_html("app/templates/html_table.html", index=False)
+    
     return df
 
 

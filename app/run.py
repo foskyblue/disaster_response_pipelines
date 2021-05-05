@@ -16,6 +16,7 @@ app = Flask(__name__)
 # load data
 df = load_data()
 
+
 # load model
 model = load_model()
 
@@ -51,6 +52,11 @@ def go():
         query=query,
         classification_result=classification_results
     )
+
+
+@app.route('/html_table')
+def html_table():
+    return render_template('html_table.html')
 
 
 def main():
